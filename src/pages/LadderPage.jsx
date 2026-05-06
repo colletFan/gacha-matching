@@ -4,12 +4,14 @@ import { loadData, saveData } from '../utils/storage';
 import { generateMatching } from '../utils/matchingLogic';
 import Ladder from '../components/Ladder';
 import ResultModal from '../components/ResultModal';
+import GachaOrderModal from '../components/GachaOrderModal';
 import styles from './LadderPage.module.css';
 
 const LadderPage = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [showResult, setShowResult] = useState(false);
+  const [showGachaOrder, setShowGachaOrder] = useState(false);
   
   // Track if any animation is currently running to block multiple clicks
   const [isAnimating, setIsAnimating] = useState(false);
@@ -34,7 +36,8 @@ const LadderPage = () => {
     const newData = {
       ...data,
       matching: newMatching,
-      ladderProgress: Array(data.names.length).fill(false)
+      ladderProgress: Array(data.names.length).fill(false),
+      gachaOrder: null
     };
     saveData(newData);
     setData(newData);
@@ -78,6 +81,9 @@ const LadderPage = () => {
         <button className={styles.resultBtn} onClick={() => setShowResult(true)}>
           결과 보기
         </button>
+        <button className={styles.orderBtn} onClick={() => setShowGachaOrder(true)}>
+          가챠 순서 정하기
+        </button>
         <button className={styles.retryBtn} onClick={handleRetry} disabled={isAnimating}>
           다시하기
         </button>
@@ -88,6 +94,20 @@ const LadderPage = () => {
           result={data.matching} 
           names={data.names} 
           onClose={() => setShowResult(false)} 
+        />
+      )}
+
+      {showGachaOrder && (
+        <GachaOrderModal
+          result={data.matching}
+          names={data.names}
+          gachaOrder={data.gachaOrder || null}
+          onOrderDecided={(order) => {
+            const newData = { ...data, gachaOrder: order };
+            saveData(newData);
+            setData(newData);
+          }}
+          onClose={() => setShowGachaOrder(false)}
         />
       )}
     </div>

@@ -81,6 +81,15 @@
   box-shadow: 0 0 15px rgba(235, 87, 87, 0.5);
 }
 
+.orderBtn {
+  background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+}
+
+.orderBtn:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.8);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

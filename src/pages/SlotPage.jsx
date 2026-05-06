@@ -4,12 +4,14 @@ import { loadData, saveData } from '../utils/storage';
 import { generateMatching } from '../utils/matchingLogic';
 import SlotRow from '../components/SlotRow';
 import ResultModal from '../components/ResultModal';
+import GachaOrderModal from '../components/GachaOrderModal';
 import styles from './SlotPage.module.css';
 
 const SlotPage = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [showResult, setShowResult] = useState(false);
+  const [showGachaOrder, setShowGachaOrder] = useState(false);
 
   // local states for spinning
   const [spinningIdxs, setSpinningIdxs] = useState([]);
@@ -54,7 +56,8 @@ const SlotPage = () => {
     const newData = {
       ...data,
       matching: newMatching,
-      slotProgress: Array(data.names.length).fill(false)
+      slotProgress: Array(data.names.length).fill(false),
+      gachaOrder: null
     };
     saveData(newData);
     setData(newData);
@@ -110,6 +113,9 @@ const SlotPage = () => {
           <button className={styles.resultBtn} onClick={() => setShowResult(true)}>
             결과 보기
           </button>
+          <button className={styles.orderBtn} onClick={() => setShowGachaOrder(true)}>
+            가챠 순서 정하기
+          </button>
           <button className={styles.retryBtn} onClick={handleRetry}>
             다시하기
           </button>
@@ -121,6 +127,20 @@ const SlotPage = () => {
           result={data.matching}
           names={data.names}
           onClose={() => setShowResult(false)}
+        />
+      )}
+
+      {showGachaOrder && (
+        <GachaOrderModal
+          result={data.matching}
+          names={data.names}
+          gachaOrder={data.gachaOrder || null}
+          onOrderDecided={(order) => {
+            const newData = { ...data, gachaOrder: order };
+            saveData(newData);
+            setData(newData);
+          }}
+          onClose={() => setShowGachaOrder(false)}
         />
       )}
     </div>
