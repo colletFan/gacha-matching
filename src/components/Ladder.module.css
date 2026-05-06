@@ -1,0 +1,78 @@
+.ladderWrapper {
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.5);
+  margin-bottom: 2rem;
+  max-width: 100%;
+}
+
+.ladderWrapper::-webkit-scrollbar {
+  height: 8px;
+}
+.ladderWrapper::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+.ladderWrapper::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.ladderSvg {
+  display: block;
+}
+
+.baseLine {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.activePath {
+  animation: drawPath 1.5s linear forwards;
+}
+
+.topNameBtn {
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.topNameBtn:hover:not(.done):not(.disabled) {
+  transform: translateY(-2px);
+}
+.topNameBtn:active:not(.done):not(.disabled) {
+  transform: translateY(1px);
+}
+
+.topNameBtn.done {
+  cursor: default;
+}
+
+.topNameBtn.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.hiddenResult {
+  opacity: 0;
+}
+
+.popResult {
+  animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s both;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes popUp {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
